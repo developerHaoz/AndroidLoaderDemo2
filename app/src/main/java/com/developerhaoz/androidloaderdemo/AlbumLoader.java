@@ -1,6 +1,7 @@
 package com.developerhaoz.androidloaderdemo;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v4.content.CursorLoader;
@@ -54,24 +55,14 @@ public class AlbumLoader extends CursorLoader {
         super(context, QUERY_URI, PROJECTION, SELECTION, SELECTION_ARGS, BUCKET_ORDER_BY);
     }
 
+    public static CursorLoader newInstance(Context context){
+        String selection = SELECTION;
+        String[] selectionArgs = SELECTION_ARGS;
+        return new AlbumLoader(context, selection, selectionArgs);
+    }
+
+    @Override
+    public Cursor loadInBackground() {
+        return super.loadInBackground();
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
