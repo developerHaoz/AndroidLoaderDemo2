@@ -1,8 +1,7 @@
 package com.developerhaoz.androidloaderdemo;
 
-import android.content.Context;
 import android.database.Cursor;
-import android.support.v4.widget.CursorAdapter;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,32 +15,74 @@ import com.bumptech.glide.Glide;
  * @date 2017/11/26.
  */
 
-public class AlbumAdapter extends CursorAdapter {
+public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumViewHolder> {
 
-    public AlbumAdapter(Context context, Cursor cursor, boolean autoRequery){
-        super(context, cursor, autoRequery);
+    private Cursor mCursor;
+
+    private static final String TAG = "AlbumAdapter";
+
+    public AlbumAdapter(Cursor cursor) {
+        this.mCursor = cursor;
     }
 
-    private boolean isDataValid(Cursor cursor){
+    @Override
+    public AlbumViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rv_album,null);
+        return new AlbumViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(AlbumViewHolder holder, int position) {
+
+//        String albumCoverPath = mCursor.getString(mCursor.getColumnIndex("_data"));
+
+        if(mCursor != null && mCursor.moveToNext()){
+            holder.tvAlbumName.setText(mCursor.getString(mCursor.getColumnIndex("bucket_display_name")));
+            holder.tvAlbumAmount.setText(mCursor.getString(mCursor.getColumnIndex("count")));
+            Glide.with(holder.ivAlbum.getContext())
+                    .load(mCursor.getString(mCursor.getColumnIndex("_data")))
+                    .into(holder.ivAlbum);
+        }
+//        String albumName = mCursor.getString(mCursor.getColumnIndex("bucket_display_name"));
+//        String amount = mCursor.getString(mCursor.getColumnIndex("count"));
+
+//        holder.tvAlbumName.setText(albumName);
+//        holder.tvAlbumAmount.setText(amount);
+//        Glide.with(holder.ivAlbum.getContext())
+//                .load(albumCoverPath)
+//                .into(holder.ivAlbum);
+    }
+
+    @Override
+    public int getItemCount() {
+        return mCursor.getCount();
+    }
+
+    private boolean isDataValid(Cursor cursor) {
         return cursor != null && !cursor.isClosed() ? true : false;
     }
 
-    @Override
-    public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        return LayoutInflater.from(context).inflate(R.layout.item_rv_album, parent, false);
+    public void swapCursor(Cursor newCursor) {
+        if (mCursor == newCursor) {
+            return;
+        }
+        notifyDataSetChanged();
     }
 
-    @Override
-    public void bindView(View view, Context context, Cursor cursor) {
-        String albumCoverPath = cursor.getString(cursor.getColumnIndex("_data"));
-        String albumName = cursor.getString(cursor.getColumnIndex("bucket_display_name"));
-        String amount = cursor.getString(cursor.getColumnIndex("count"));
+    public static class AlbumViewHolder extends RecyclerView.ViewHolder {
 
-        ((TextView) view.findViewById(R.id.album_tv_album_name)).setText(albumName);
-        ((TextView) view.findViewById(R.id.album_tv_amount)).setText(amount);
-        Glide.with(context)
-                .load(albumCoverPath)
-                .into((ImageView)view.findViewById(R.id.album_iv_album));
+        private ImageView ivAlbum;
+        private TextView tvAlbumName;
+        private TextView tvAlbumAmount;
+
+        public AlbumViewHolder(View itemView) {
+            super(itemView);
+            ivAlbum = (ImageView) itemView.findViewById(R.id.album_iv_album);
+            tvAlbumName = (TextView) itemView.findViewById(R.id.album_tv_album_name);
+            tvAlbumAmount = (TextView) itemView.findViewById(R.id.album_tv_amount);
+        }
+
+
     }
 
 }

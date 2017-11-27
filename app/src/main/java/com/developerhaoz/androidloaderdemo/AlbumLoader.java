@@ -30,7 +30,7 @@ public class AlbumLoader extends CursorLoader {
     private static final String[] PROJECTION = {
             MediaStore.Files.FileColumns._ID,
             "bucket_id",
-            "bucekt_display_name",
+            "bucket_display_name",
             MediaStore.MediaColumns.DATA,
             "COUNT(*) AS " + COLUMN_COUNT};
 
@@ -39,10 +39,10 @@ public class AlbumLoader extends CursorLoader {
      */
     private static final String SELECTION =
             "(" + MediaStore.Files.FileColumns.MEDIA_TYPE + "=?"
-            + " OR "
-            + MediaStore.Files.FileColumns.MEDIA_TYPE + "=?)"
-            + " AND " + MediaStore.MediaColumns.SIZE + ">0"
-            + ") GROUP BY (bucket_id";
+                    + " OR "
+                    + MediaStore.Files.FileColumns.MEDIA_TYPE + "=?)"
+                    + " AND " + MediaStore.MediaColumns.SIZE + ">0"
+                    + ") GROUP BY (bucket_id";
 
     private static final String[] SELECTION_ARGS = {
             String.valueOf(MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE),
@@ -51,11 +51,11 @@ public class AlbumLoader extends CursorLoader {
 
     private static final String BUCKET_ORDER_BY = "datetaken DESC";
 
-    private AlbumLoader(Context context, String selection, String[] selectionArgs){
+    private AlbumLoader(Context context, String selection, String[] selectionArgs) {
         super(context, QUERY_URI, PROJECTION, SELECTION, SELECTION_ARGS, BUCKET_ORDER_BY);
     }
 
-    public static CursorLoader newInstance(Context context){
+    public static CursorLoader newInstance(Context context) {
         String selection = SELECTION;
         String[] selectionArgs = SELECTION_ARGS;
         return new AlbumLoader(context, selection, selectionArgs);

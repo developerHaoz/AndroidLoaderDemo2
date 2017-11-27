@@ -5,7 +5,6 @@
                 android:padding="12dp"
     >
 
-
     <ImageView
         android:id="@+id/album_iv_album"
         android:layout_width="48dp"
@@ -13,7 +12,6 @@
         android:layout_centerVertical="true"
         android:src="@mipmap/ic_launcher"
         />
-
 
     <TextView
         android:id="@+id/album_tv_album_name"
