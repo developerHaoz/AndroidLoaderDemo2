@@ -17,11 +17,9 @@ import java.lang.ref.WeakReference;
 public class AlbumCollection implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final int LOADER_ID = 1;
-    private static final String STATE_CURRENT_SELECTION = "state_current_selection";
     private WeakReference<Context> mContext;
     private LoaderManager mLoaderManager;
     private AlbumCallbacks mCallbacks;
-    private int mCurrentSelection;
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {

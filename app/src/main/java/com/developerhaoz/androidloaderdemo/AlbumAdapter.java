@@ -19,8 +19,6 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumViewHol
 
     private Cursor mCursor;
 
-    private static final String TAG = "AlbumAdapter";
-
     public AlbumAdapter(Cursor cursor) {
         this.mCursor = cursor;
     }
@@ -34,39 +32,23 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumViewHol
     @Override
     public void onBindViewHolder(AlbumViewHolder holder, int position) {
 
-//        String albumCoverPath = mCursor.getString(mCursor.getColumnIndex("_data"));
-
         if(mCursor != null && mCursor.moveToNext()){
-            holder.tvAlbumName.setText(mCursor.getString(mCursor.getColumnIndex("bucket_display_name")));
-            holder.tvAlbumAmount.setText(mCursor.getString(mCursor.getColumnIndex("count")));
+            String albumCoverPath = mCursor.getString(mCursor.getColumnIndex("_data"));
+            String albumName = mCursor.getString(mCursor.getColumnIndex("bucket_display_name"));
+            String amount = mCursor.getString(mCursor.getColumnIndex("count"));
+
+            holder.tvAlbumName.setText(albumName);
+            holder.tvAlbumAmount.setText(amount);
             Glide.with(holder.ivAlbum.getContext())
-                    .load(mCursor.getString(mCursor.getColumnIndex("_data")))
+                    .load(albumCoverPath)
+                    .centerCrop()
                     .into(holder.ivAlbum);
         }
-//        String albumName = mCursor.getString(mCursor.getColumnIndex("bucket_display_name"));
-//        String amount = mCursor.getString(mCursor.getColumnIndex("count"));
-
-//        holder.tvAlbumName.setText(albumName);
-//        holder.tvAlbumAmount.setText(amount);
-//        Glide.with(holder.ivAlbum.getContext())
-//                .load(albumCoverPath)
-//                .into(holder.ivAlbum);
     }
 
     @Override
     public int getItemCount() {
         return mCursor.getCount();
-    }
-
-    private boolean isDataValid(Cursor cursor) {
-        return cursor != null && !cursor.isClosed() ? true : false;
-    }
-
-    public void swapCursor(Cursor newCursor) {
-        if (mCursor == newCursor) {
-            return;
-        }
-        notifyDataSetChanged();
     }
 
     public static class AlbumViewHolder extends RecyclerView.ViewHolder {
