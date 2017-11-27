@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
 
 /**
@@ -63,8 +62,5 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumViewHol
             tvAlbumName = (TextView) itemView.findViewById(R.id.album_tv_album_name);
             tvAlbumAmount = (TextView) itemView.findViewById(R.id.album_tv_amount);
         }
-
-
     }
-
 }
